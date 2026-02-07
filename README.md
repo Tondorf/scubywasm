@@ -1,6 +1,5 @@
 [![Engine CI](https://github.com/tondorf/scubywasm/actions/workflows/engine_ci.yml/badge.svg)](https://github.com/tondorf/scubywasm/actions/workflows/engine_ci.yml)
 [![Agents CI](https://github.com/tondorf/scubywasm/actions/workflows/agents_ci.yml/badge.svg)](https://github.com/tondorf/scubywasm/actions/workflows/agents_ci.yml)
-[![codecov](https://codecov.io/gh/tondorf/scubywasm/graph/badge.svg?token=BHHBQK7596)](https://codecov.io/gh/tondorf/scubywasm)
 
 # Scubywasm
 Scubywasm is the rightful heir and modern reincarnation of the infamous [Scubywars](https://github.com/SuperTux88/scubywars.kernel) - this time with [WebAssembly (WASM)](https://webassembly.org/) because this is definitely a good idea.
