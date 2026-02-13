@@ -1,7 +1,9 @@
 import functools
 
 from .wasmmodule import WASMModule
+import logging
 
+logger = logging.getLogger(__name__)
 
 def fuel_guard(fn):
     @functools.wraps(fn)
@@ -12,6 +14,7 @@ def fuel_guard(fn):
         try:
             return fn(self, *args, **kwargs)
         except Exception:
+            logger.info("Filthy agent misbehaved and is now trapped")
             self._trapped = True
             return None
 
@@ -52,7 +55,8 @@ class Agent:
                 ]
             ):
                 self._module.set_config_parameter(self._ctx, i, value)
-        except Exception:
+        except Exception as e:
+            logger.info("Agent failed to initialize: %s", e)
             self._trapped = True
 
     def refuel(self, *, level):

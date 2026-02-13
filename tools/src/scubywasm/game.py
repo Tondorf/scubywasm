@@ -3,12 +3,15 @@ import json
 import math
 import pathlib
 import random
+import logging
 
 import wasmtime
 
 from .agent import Agent
 from .common import Pose
 from .engine import Engine
+
+logger = logging.getLogger(__name__)
 
 
 class Game:
@@ -248,8 +251,15 @@ def main():
         metavar="FILE",
         help="write the JSON log to FILE instead of stdout",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose logging",
+    )
 
     args = parser.parse_args()
+    
+    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
 
     if not args.engine_wasmfile.is_file():
         parser.error(f"Couldn't open engine WASM file {args.engine_wasmfile!s}")
