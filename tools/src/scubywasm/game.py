@@ -173,9 +173,8 @@ class Game:
             self._log[i]["fuel"].append(agent.fuel_level)
 
         n_teams_alive = sum(team_alive)
-        if n_teams_alive > 1:
-            self._engine.tick(n_times)
-            self.ticks += n_times
+        self._engine.tick(n_times)
+        self.ticks += n_times
 
         return n_teams_alive
 

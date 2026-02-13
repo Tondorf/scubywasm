@@ -155,7 +155,7 @@ def main():
             tick = int(t)
 
             pygame.display.set_caption(
-                f"Scubywasm replay {args.logfile} | Tick: {tick}/{max_tick}"
+                f"Scubywasm replay {args.logfile} | Tick: {tick + 1}/{max_tick + 1}"
             )
             screen.fill((15, 15, 18))
 
