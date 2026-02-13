@@ -63,7 +63,7 @@ make
 
 and you'll get a working `freestanding_agent.wasm` under `agents/build/`.
 Optionally, we also ship a small Lua-based agent; that one currently requires [WASI](https://wasi.dev/).
-(In theory, the Lua setup could be made freestanding as well, but this is not implemented yet.)
+(In theory, the Lua setup could be made freestanding as well, but this is not implemented yet; see [Issue #1](https://github.com/Tondorf/scubywasm/issues/1))
 We bundle the Lua sources as an (optional) Git submodule under `agents/lua`, hence make sure you clone this repository with submodules and manually install the [WASI SDK](https://github.com/WebAssembly/wasi-sdk).
 To build *both* the freestanding C agent and the Lua agent, run:
 
