@@ -57,4 +57,4 @@ class WASMModule:
     def debug_log(self, start, length):
         # We cannot pass strings or complex types directly, so we need to fetch it directly from the modules memory:
         ba = self._memory.read(self._store, start, start+length)
-        print("[wasmdbg] " + ba.decode())
+        print("WASM: " + ba.decode().strip()) # strip is essential, since some logging frameworks emit newlines.
