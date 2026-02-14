@@ -1,9 +1,9 @@
 import argparse
 import json
+import logging
 import math
 import pathlib
 import random
-import logging
 
 import wasmtime
 
@@ -257,7 +257,7 @@ def main():
     )
 
     args = parser.parse_args()
-    
+
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
 
     if not args.engine_wasmfile.is_file():

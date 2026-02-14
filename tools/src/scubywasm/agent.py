@@ -1,9 +1,10 @@
 import functools
-
-from .wasmmodule import WASMModule
 import logging
 
+from .wasmmodule import WASMModule
+
 logger = logging.getLogger(__name__)
+
 
 def fuel_guard(fn):
     @functools.wraps(fn)
