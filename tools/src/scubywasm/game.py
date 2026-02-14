@@ -4,6 +4,7 @@ import logging
 import math
 import pathlib
 import random
+import sys
 
 import wasmtime
 
@@ -251,14 +252,24 @@ def main():
         help="write the JSON log to FILE instead of stdout",
     )
     parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose logging",
+        "--log_level",
+        type=str,
+        default="info",
+        choices=["warning", "info", "debug"],
+        help="Log level. (Default: info)",
     )
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING)
+    logging.basicConfig(
+        level={
+            "warning": logging.WARNING,
+            "info": logging.INFO,
+            "debug": logging.DEBUG,
+        }[args.log_level],
+        stream=sys.stdout,
+        format="%(levelname)s [%(name)s]:    %(message)s",
+    )
 
     if not args.engine_wasmfile.is_file():
         parser.error(f"Couldn't open engine WASM file {args.engine_wasmfile!s}")
