@@ -22,6 +22,7 @@ class Scenario:
         self.fuel_limit = fuel_limit
         self.agents = {}
         self.seed=42
+        self.result_dir = None
 
     def gather_agents(self):
         agents = {}
@@ -76,7 +77,7 @@ class Scenario:
             print(f"Warning: no agents found for scenario '{self.name}', sleeping...")
             sleep(5)
             return self
-        if self.need_restart(agents):
+        if self.need_restart(agents) or self.result_dir is None:
             self.agents = agents
             self.result_dir = RESULTS_DIR / self.name / datetime.datetime.now().strftime("%Y%m%d-%H%M%S.%f")[:-3]
             self.result_dir.mkdir(parents=True, exist_ok=True)
