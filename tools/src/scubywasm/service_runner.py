@@ -72,7 +72,7 @@ class Scenario:
 
         log = game.log["history"]
         final_scores = [team["scores"][-1] for team in log]
-        teams = [f"{file.parent.name}/{file.stem}" for file in agents]
+        teams = [f"{file.stem}" for file in agents]
         logger.save_log(dict(teams=teams, final_scores=final_scores) | game.log)
 
     def run(self):
