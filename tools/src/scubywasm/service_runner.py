@@ -26,7 +26,7 @@ class Scenario:
 
     def gather_agents(self):
         agents = {}
-        for user_dir in pathlib.Path.home().glob("agents/*"):
+        for user_dir in pathlib.Path("/home").glob("*/agents/*"):
             if user_dir.is_dir():
                 user = user_dir.stem
                 for agent_file in user_dir.glob("*.wasm"):

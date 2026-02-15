@@ -8,7 +8,7 @@
       "python": "${workspaceFolder}/tools/.venv/bin/python",
       "program": "${workspaceFolder}/tools/.venv/bin/scubywasm-service-runner",
       "cwd": "${workspaceFolder}",
-      "args": ["/var/lib/scubywasm/engine.wasm", "/var/www/results", "/var/lib/scubywasm/scenarios.json"],
+      "args": ["/home/server/engine.wasm", "/var/www/results", "/home/server/scenarios.json"],
       "console": "integratedTerminal",
       "justMyCode": true
     }
