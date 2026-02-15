@@ -8,10 +8,26 @@ extern "C"
 {
 #endif
 
+__attribute__((import_module("debug"), import_name("debug_log"))) void
+host_debug_log(uint32_t ptr, uint32_t len);
+
+static void log(const char *s)
+{
+    uint32_t n = 0;
+    while (s[n] != '\0')
+    {
+        n++;
+    }
+
+    host_debug_log((uint32_t)(uintptr_t)s, n);
+}
+
 struct Context *init_agent(uint32_t /*n_agents*/,
                            uint32_t /*agent_multiplicity*/,
                            uint32_t /*seed*/)
 {
+    log("hello from freestanding agent");
+
     return NULL;
 }
 

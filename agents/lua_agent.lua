@@ -18,6 +18,7 @@ local function next_rnd(state)
 end
 
 function init(n_agents, agent_multiplicity, seed)
+    print("hello from Lua agent");
     world_seed = seed
 end
 

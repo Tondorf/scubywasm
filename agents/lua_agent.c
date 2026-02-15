@@ -29,6 +29,47 @@ struct Context
     int ref_make_action;
 };
 
+__attribute__((import_module("debug"), import_name("debug_log"))) void
+host_debug_log(uint32_t ptr, uint32_t len);
+
+static int print(lua_State *L)
+{
+    const int n = lua_gettop(L);
+
+    luaL_Buffer b;
+    luaL_buffinit(L, &b);
+
+    for (int i = 0; i < n; i++)
+    {
+        if (i > 0)
+        {
+            luaL_addchar(&b, '\t');
+        }
+
+        size_t len = 0;
+        const char *s = luaL_tolstring(L, i + 1, &len);
+        luaL_addlstring(&b, s, len);
+        lua_pop(L, 1);
+    }
+
+    luaL_addchar(&b, '\n');
+    luaL_pushresult(&b);
+
+    size_t len = 0;
+    const char *out = lua_tolstring(L, -1, &len);
+
+    if (out)
+    {
+        const uint32_t uint32_max = 0xFFFFFFFF;
+        host_debug_log((uint32_t)(uintptr_t)out,
+                       (len <= uint32_max) ? (uint32_t)len : uint32_max);
+    }
+
+    lua_pop(L, 1);
+
+    return 0;
+}
+
 static void ctx_trap(struct Context *ctx)
 {
     if (ctx)
@@ -83,7 +124,7 @@ static void open_minimal_libs(lua_State *L)
     luaL_requiref(L, "table", luaopen_table, 1);
     lua_pop(L, 1);
 
-    lua_pushnil(L);
+    lua_pushcfunction(L, print);
     lua_setglobal(L, "print");
 }
 

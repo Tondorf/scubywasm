@@ -1,7 +1,10 @@
 import functools
+import logging
 import struct
 
 import wasmtime
+
+logging = logging.getLogger(__name__)
 
 
 class WASMModule:
@@ -12,6 +15,13 @@ class WASMModule:
         if wasi:
             self._store.set_wasi(wasmtime.WasiConfig())
             linker.define_wasi()
+
+        dbg = wasmtime.Func(
+            store,
+            wasmtime.FuncType([wasmtime.ValType.i32(), wasmtime.ValType.i32()], []),
+            self._debug_log,
+        )
+        linker.define(store, "debug", "debug_log", dbg)
 
         self._instance = linker.instantiate(
             self._store,
@@ -49,3 +59,7 @@ class WASMModule:
 
     def write_struct(self, fmt, ptr, *values):
         self._memory.write(self._store, struct.pack(fmt, *values), ptr)
+
+    def _debug_log(self, start, length):
+        msg = self._memory.read(self._store, start, start + length).decode().strip()
+        logging.debug(msg)

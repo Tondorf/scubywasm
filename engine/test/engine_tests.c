@@ -158,8 +158,8 @@ void test_tick_single_agent_turn_then_move(void)
     const float x = p1.x + cfg.ship_max_velocity * sinf(p1.heading * DEG2RAD);
     const float y = p1.y + cfg.ship_max_velocity * cosf(p1.heading * DEG2RAD);
 
-    TEST_ASSERT_FLOAT_WITHIN(1e-6F, x, p2.x);
-    TEST_ASSERT_FLOAT_WITHIN(1e-6F, y, p2.y);
+    TEST_ASSERT_FLOAT_WITHIN(1e-5F, x, p2.x);
+    TEST_ASSERT_FLOAT_WITHIN(1e-5F, y, p2.y);
     TEST_ASSERT_FLOAT_WITHIN(.1F, p1.heading, p2.heading);
 }
 

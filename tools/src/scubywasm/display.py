@@ -21,7 +21,7 @@ def draw_ship(surf, color, x, y, r, heading):
             cx = x0 + dx
             cy = y0 + dy
             if -r <= cx <= w + r and -r <= cy <= h + r:
-                P = cx, cy
+                P = cx, h - cy
 
                 Ax = cx + rt * math.cos(theta)
                 Ay = cy + rt * math.sin(theta)
@@ -30,9 +30,9 @@ def draw_ship(surf, color, x, y, r, heading):
                 Cx = cx + rt * math.cos(theta - ang120)
                 Cy = cy + rt * math.sin(theta - ang120)
 
-                A = int(round(Ax)), int(round(Ay))
-                B = int(round(Bx)), int(round(By))
-                C = int(round(Cx)), int(round(Cy))
+                A = int(round(Ax)), h - int(round(Ay))
+                B = int(round(Bx)), h - int(round(By))
+                C = int(round(Cx)), h - int(round(Cy))
 
                 pygame.draw.polygon(surf, color, [A, B, P])
                 pygame.draw.polygon(surf, color, [A, P, C])
@@ -49,7 +49,7 @@ def draw_shot(surf, color, x, y, r):
             cx = x0 + dx
             cy = y0 + dy
             if -r <= cx <= w + r and -r <= cy <= h + r:
-                pygame.draw.circle(surf, color, (cx, cy), r)
+                pygame.draw.circle(surf, color, (cx, h - cy), r)
 
 
 def blit_overlay(screen, font, items, x=12, y=12, pad=8, line_gap=4):
