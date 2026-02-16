@@ -4,6 +4,7 @@ import errno
 import json
 import os
 import pathlib
+from random import random
 import signal
 import tempfile
 import concurrent.futures as cf
@@ -23,7 +24,7 @@ class Scenario:
         self.max_rounds = max_rounds
         self.agents = {}
         self.round = 0
-        self.seed = 42
+        self.seed = random.randint(0, 2**32 - 1)
         self.notified = False
         self.result_dir = None
 
