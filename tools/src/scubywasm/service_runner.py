@@ -97,13 +97,11 @@ class Scenario:
         
     def gather_agents(self):
         agents = {}
-        for user_dir in pathlib.Path("/home").glob("*"):
-            if user_dir.is_dir():   
-                user = user_dir.stem
-                for agent_file in user_dir.glob("agents/*/*.wasm"):
-                    agent_name = agent_file.parent.stem
-                    if agent_name not in agents or agent_file.stat().st_mtime > agents[agent_name][1]:
-                        agents[agent_name] =  (agent_file, agent_file.stat().st_mtime, agent_file.stat().st_size, user)
+        for agent_file in pathlib.Path("/").glob(AGENTS_GLOB.lstrip("/")):
+            user = agent_file.parent.stem
+            agent_name = agent_file.stem
+            if agent_name not in agents:
+                agents[agent_name] =  (agent_file, agent_file.stat().st_mtime, agent_file.stat().st_size, user)
         return agents
     
     def need_restart(self, agents):
@@ -235,12 +233,8 @@ def main():
             "  compatible with scubywasm-display alongside the used agent wasm files in a results folder. This is intended\n"
             "  to be downloaded via a HTTP-server.\n\n"
             "agents\n"
-            "  Agents are taken from a subfolder 'agents/<agent-name>' inside each user's home directory.\n"
-            "  For each subfolder, the server selects exactly one wasm file: the latest version present (by date).\n"
-            "  Internally, the server keeps track of the used agent versions and restarts scenarios using an agent if a new \n"
-            "  version is detected or a change in the number of the agents is detected. The agents will be renamed to\n"
-            " '<user>-<agent-name>.wasm' in the results folder.\n\n"
-            
+            "  Agents are taken from a glob pattern specified on the commandline. In the logs, the name used is a combination of the user name and the file name\n"
+           
         ),
     )
     parser.add_argument(
@@ -267,6 +261,17 @@ def main():
             "agents is updated"
         ),
     )
+    parser.add_argument(
+        "agents_glob",
+        type=str,
+        metavar="AGENTS_GLOB",
+        default=None,
+        help=(
+            "glob pattern to match agent wasm files; each scenario is run in a separate process and restarted when any of the used"
+            "agents is updated"
+        ),
+    )
+
     args = parser.parse_args()
 
     scenarios = _read_scenarios(args.scenario_file)
@@ -284,9 +289,10 @@ def main():
     if not args.engine_wasmfile.exists() or not args.engine_wasmfile.is_file():
         raise FileNotFoundError(f"engine wasm file {args.engine_wasmfile!s} does not exist or is not a file")
     
-    global RESULTS_DIR, ENGINE_WASM
+    global RESULTS_DIR, ENGINE_WASM, AGENTS_GLOB
     RESULTS_DIR = args.results_dir
     ENGINE_WASM = args.engine_wasmfile
+    AGENTS_GLOB = args.agents_glob
 
     stopping = False
     
