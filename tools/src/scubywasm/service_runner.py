@@ -119,7 +119,7 @@ class Scenario:
         agent_files = {name: (agent_file, user) for name, (agent_file, _, _, user) in self.agents.items()}
         agents=[]
         for agent_file, user in agent_files.values():
-            dest_file = self.result_dir / f"{user}-{agent_file.parent.name}-{agent_file.stem}.wasm"
+            dest_file = self.result_dir / f"{user}-{agent_file.stem}.wasm"
             if not dest_file.exists():
                 dest_file.write_bytes(agent_file.read_bytes())
             agents.append(dest_file)
