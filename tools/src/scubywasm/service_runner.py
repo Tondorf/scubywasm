@@ -326,7 +326,7 @@ def main():
                     scenario = future.result()
                 except Exception as e:
                     print(f"Worker failed: {e!r}")
-
+                    sleep(10)
                 if not stopping:
                     futures.add(ex.submit(scenario.run))
 
