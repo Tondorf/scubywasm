@@ -7,6 +7,16 @@ import wasmtime
 logging = logging.getLogger(__name__)
 
 
+def debug_log(caller, start, length):
+    mem = caller["memory"]
+    msg = (
+        mem.read(caller, start, start + length)
+        .decode("utf-8", errors="replace")
+        .strip()
+    )
+    logging.debug(msg)
+
+
 class WASMModule:
     def __init__(self, wasm, *, store, wasi=False):
         self._store = store
@@ -19,7 +29,8 @@ class WASMModule:
         dbg = wasmtime.Func(
             store,
             wasmtime.FuncType([wasmtime.ValType.i32(), wasmtime.ValType.i32()], []),
-            self._debug_log,
+            debug_log,
+            access_caller=True,
         )
         linker.define(store, "debug", "debug_log", dbg)
 
@@ -59,7 +70,3 @@ class WASMModule:
 
     def write_struct(self, fmt, ptr, *values):
         self._memory.write(self._store, struct.pack(fmt, *values), ptr)
-
-    def _debug_log(self, start, length):
-        msg = self._memory.read(self._store, start, start + length).decode().strip()
-        logging.debug(msg)

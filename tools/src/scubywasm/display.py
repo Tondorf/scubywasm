@@ -146,10 +146,11 @@ def main():
                         t = float(max(0, t - 1))
 
             keys = pygame.key.get_pressed()
+            speed = 50 if keys[pygame.K_f] else 10
             if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-                t = float(min(max_tick, t + 10 * dt))
+                t = float(min(max_tick, t + speed * dt))
             elif keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-                t = float(max(0, t - 10 * dt))
+                t = float(max(0, t - speed * dt))
 
             t = float(max(0, min(max_tick, t)))
             tick = int(t)
@@ -160,13 +161,11 @@ def main():
             screen.fill((15, 15, 18))
 
             for i, team in enumerate(log):
-                color = team_colors[i % len(team_colors)]
-
                 for shot in team["shots"].values():
                     if shot["lifetime"][tick] > 0:
                         draw_shot(
                             screen,
-                            color,
+                            team_colors[i % len(team_colors)],
                             shot["x"][tick],
                             shot["y"][tick],
                             r_shot,
@@ -176,20 +175,21 @@ def main():
                     if ship["alive"][tick]:
                         draw_ship(
                             screen,
-                            color,
+                            team_colors[i % len(team_colors)],
                             ship["x"][tick],
                             ship["y"][tick],
                             r_ship,
                             ship["heading"][tick],
                         )
 
-            color = (235, 235, 235)
+            text_color = (235, 235, 235)
             items = [
-                ("Hold RIGHT/LEFT: +/- 10 ticks/s", color),
-                ("Press DOWN/UP: +/- 1 tick", color),
-                ("Press Q or ESC: quit", color),
-                ("", color),
-                ("SCORES", color),
+                ("Press Q or ESC: quit", text_color),
+                ("Press UP/DOWN: +/- 1 tick", text_color),
+                ("Hold RIGHT/LEFT: +/- 10 ticks/s", text_color),
+                ("(hold F for fast-forward)", text_color),
+                ("", text_color),
+                ("SCORES:", text_color),
             ]
 
             for name, color, history in zip(team_names, team_colors, log):
