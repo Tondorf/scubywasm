@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug scubywasm service runner",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/tools/.venv/bin/python",
+      "program": "${workspaceFolder}/tools/.venv/bin/scubywasm-service-runner",
+      "cwd": "${workspaceFolder}",
+      "args": ["/home/server/engine.wasm", "/var/www/results", "/home/server/scenarios.json", "/home/*/agents/*/*.wasm"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}

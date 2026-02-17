@@ -13,6 +13,7 @@ dependencies = [
 scubywasm-run = "scubywasm.game:main"
 scubywasm-server = "scubywasm.server:main"
 scubywasm-show = "scubywasm.display:main"
+scubywasm-service-runner = "scubywasm.service_runner:main"
 
 [dependency-groups]
 dev = [
